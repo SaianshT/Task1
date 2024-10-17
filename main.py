@@ -1,22 +1,24 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask
+from flask import send_file
+from flask_restful import Resource, Api
 import random
 import os
 
+
 app = Flask(__name__)
+api = Api(app)
 
-# Assume we have a directory called 'dishes' with images of dishes
-DISHES_DIR = 'dishes'
+class HelloWorld(Resource):
+    def get(self):
+        a = random.choice(os.listdir('C:/Users/user/PycharmProjects/pythonProject/.venv/dishes'))
 
-@app.route('/random-dish', methods=['GET'])
-def random_dish():
-    try:
-        # Your code here: 
-        # 1. Get a list of all image files in the DISHES_DIR
-        # 2. Choose a random image from the list
-        # 3. Return the image file
-        pass
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        #return('C:/Users/user/PycharmProjects/pythonProject/.venv/dishes/' + a)
+        #os.startfile(a)
+        return send_file('C:/Users/user/PycharmProjects/pythonProject/.venv/dishes/' + a)
+
+
+
+api.add_resource(HelloWorld, '/')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8001)
